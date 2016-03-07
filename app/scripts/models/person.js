@@ -2,6 +2,9 @@ var Backbone = require('backbone');
 
 
 var PersonModel = Backbone.Model.extend({
+  defaults:{
+    'gender': 'female'
+  },
   initialize: function(){
     console.log('New Person Created!');
   },
@@ -13,8 +16,6 @@ var PersonModel = Backbone.Model.extend({
   }
 });
 
-var BakerPersonModel = PersonModel.extend({
-
-});
+var person = new PersonModel();
 
 module.exports = PersonModel;

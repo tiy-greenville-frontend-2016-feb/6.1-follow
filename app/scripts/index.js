@@ -1,33 +1,54 @@
+// 3rd Party
+var $ = require('jquery');
+var handlebars = require('handlebars');
 
-var Person = require('./models/person');
+// Local
 var PersonCollection = require('./models/person-collection');
 
-// var jimmy = new Person({age: 42, firstName: 'Jimmy', lastName: 'John'});
-// var wendy = new Person({age: 40, firstName: 'Wendy', lastName: 'Thomas'});
+$(function(){
+  // Setup my collection
+  var people = new PersonCollection([
+    {age: 42, firstName: 'Jimmy', lastName: 'John'},
+    {age: 40, firstName: 'Wendy', lastName: 'Thomas'}
+  ]);
 
-var people = new PersonCollection([
-  {age: 42, firstName: 'Jimmy', lastName: 'John'},
-  {age: 40, firstName: 'Wendy', lastName: 'Thomas'}
-]);
+  doTemplate('.container', '#people', {});
 
-console.log(people);
+  people.each(function(person){
+    console.log(person);
+    doTemplate('.people', '#person', person.toJSON());
+  });
 
-people.each(function(dude){
-  console.log(dude.get("firstName"));
-  dude.sayName();
+  function doTemplate(target, source, context){
+    var source = $(source).html();
+    var template = handlebars.compile(source);
+    $(target).append(template(context));
+  }
+
 });
 
-// console.log(jimmy);
-//
-// console.log(jimmy.get("age"));
-// console.log(jimmy.get("firstName"));
-// console.log(jimmy.get("lastName"));
-//
-// console.log(jimmy.set({"age": 65}));
-//
-// console.log(jimmy.get("age"));
-//
-// console.log(jimmy.makeSandwich());
-//
-// jimmy.sayName();
-// wendy.sayName();
+
+
+
+
+/**
+ * Models!
+ */
+var Person = require('./models/person');
+var jimmy = new Person({age: 42, firstName: 'Jimmy', lastName: 'John'});
+var wendy = new Person({age: 40, firstName: 'Wendy', lastName: 'Thomas'});
+
+console.log(jimmy);
+
+console.log(jimmy.get("age"));
+console.log(jimmy.get("firstName"));
+console.log(jimmy.get("lastName"));
+
+console.log(jimmy.set({"age": 65}));
+
+console.log(jimmy.get("age"));
+
+console.log(jimmy.makeSandwich());
+
+jimmy.sayName();
+wendy.sayName();
